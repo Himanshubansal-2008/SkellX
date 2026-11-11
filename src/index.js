@@ -10,3 +10,6 @@ export { default as CircleSkeleton } from './components/CircleSkeleton';
 export { default as TextSkeleton } from './components/TextSkeleton';
 
 export { default as CardSkeleton } from './components/CardSkeleton';
+
+export { default as Shimmer } from './animations/Shimmer';
+export { default as Pulse } from './animations/Pulse';
