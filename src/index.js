@@ -5,3 +5,6 @@ export * from './constants/animations';
 export * from './utils/validateProps';
 
 export { default as BoxSkeleton } from './components/BoxSkeleton';
+
+export { default as CircleSkeleton } from './components/CircleSkeleton';
+export { default as TextSkeleton } from './components/TextSkeleton';
