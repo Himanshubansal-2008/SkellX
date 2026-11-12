@@ -1,18 +1,18 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import {
-  DEFAULT_SKELETON_COLOR,
-  DEFAULT_BORDER_RADIUS,
-} from '../constants/defaults';
+import { DEFAULT_BORDER_RADIUS } from '../constants/defaults';
+import useTheme from '../hooks/useTheme';
 
 const BoxSkeleton = ({
   width = '100%',
   height = 100,
-  color = DEFAULT_SKELETON_COLOR,
+  color,
   borderRadius = DEFAULT_BORDER_RADIUS,
   style,
 }) => {
+  const theme = useTheme();
+
   return (
     <View
       style={[
@@ -20,7 +20,7 @@ const BoxSkeleton = ({
         {
           width,
           height,
-          backgroundColor: color,
+          backgroundColor: color || theme.backgroundColor,
           borderRadius,
         },
         style,

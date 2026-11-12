@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import { DEFAULT_SKELETON_COLOR } from '../constants/defaults';
+import useTheme from '../hooks/useTheme';
 
 const CircleSkeleton = ({
   size = 50,
-  color = DEFAULT_SKELETON_COLOR,
+  color,
   style,
 }) => {
+  const theme = useTheme();
+
   return (
     <View
       style={[
@@ -16,7 +18,7 @@ const CircleSkeleton = ({
           width: size,
           height: size,
           borderRadius: size / 2,
-          backgroundColor: color,
+          backgroundColor: color || theme.backgroundColor,
         },
         style,
       ]}

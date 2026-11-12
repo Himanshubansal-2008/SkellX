@@ -13,3 +13,7 @@ export { default as CardSkeleton } from './components/CardSkeleton';
 
 export { default as Shimmer } from './animations/Shimmer';
 export { default as Pulse } from './animations/Pulse';
+
+export { SkeletonThemeProvider } from './themes/ThemeContext';
+export { default as useTheme } from './hooks/useTheme';
+export { lightTheme, darkTheme, getTheme } from './themes/themes';
