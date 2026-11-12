@@ -17,3 +17,5 @@ export { default as Pulse } from './animations/Pulse';
 export { SkeletonThemeProvider } from './themes/ThemeContext';
 export { default as useTheme } from './hooks/useTheme';
 export { lightTheme, darkTheme, getTheme } from './themes/themes';
+
+export { default as SkeletonGroup } from './components/SkeletonGroup';
