@@ -18,5 +18,6 @@
   },
   "files": [
     "src"
-  ]
+  ],
+  "react-native": "src/index.js"
 }
