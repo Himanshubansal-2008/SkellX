@@ -1,35 +1,25 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 
-import useTheme from '../hooks/useTheme';
+import SkeletonItem from './SkeletonItem';
 
 const CircleSkeleton = ({
   size = 50,
   color,
+  animation,
+  duration,
   style,
 }) => {
-  const theme = useTheme();
-
   return (
-    <View
-      style={[
-        styles.circle,
-        {
-          width: size,
-          height: size,
-          borderRadius: size / 2,
-          backgroundColor: color || theme.backgroundColor,
-        },
-        style,
-      ]}
+    <SkeletonItem
+      width={size}
+      height={size}
+      color={color}
+      borderRadius={size / 2}
+      animation={animation}
+      duration={duration}
+      style={style}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  circle: {
-    overflow: 'hidden',
-  },
-});
 
 export default CircleSkeleton;

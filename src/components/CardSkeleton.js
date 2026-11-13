@@ -11,6 +11,8 @@ const CardSkeleton = ({
   avatarSize = 40,
   lines = 2,
   spacing = 12,
+  animation,
+  duration,
   style,
 }) => {
   return (
@@ -19,13 +21,25 @@ const CardSkeleton = ({
         width="100%"
         height={imageHeight}
         borderRadius={12}
+        animation={animation}
+        duration={duration}
       />
 
       <View style={styles.content}>
         <View style={styles.profile}>
-          <CircleSkeleton size={avatarSize} />
+          <CircleSkeleton
+            size={avatarSize}
+            animation={animation}
+            duration={duration}
+          />
+
           <View style={styles.text}>
-            <TextSkeleton lines={2} lineHeight={10} />
+            <TextSkeleton
+              lines={2}
+              lineHeight={10}
+              animation={animation}
+              duration={duration}
+            />
           </View>
         </View>
 
@@ -33,6 +47,8 @@ const CardSkeleton = ({
           lines={lines}
           lineHeight={12}
           spacing={spacing}
+          animation={animation}
+          duration={duration}
         />
       </View>
     </View>

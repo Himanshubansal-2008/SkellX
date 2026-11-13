@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Easing,
@@ -11,10 +11,16 @@ const Shimmer = ({
   height = 100,
   duration = 1200,
   color = '#FFFFFF',
+  backgroundColor = '#E1E1E1',
   opacity = 0.5,
   borderRadius = 8,
+  style,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
+
+  const [containerWidth, setContainerWidth] = useState(
+    typeof width === 'number' ? width : 0
+  );
 
   useEffect(() => {
     const animation = Animated.loop(
@@ -28,25 +34,28 @@ const Shimmer = ({
 
     animation.start();
 
-    return () => {
-      animation.stop();
-    };
+    return () => animation.stop();
   }, [animatedValue, duration]);
 
   const translateX = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [-width, width],
+    outputRange: [-containerWidth, containerWidth],
   });
 
   return (
     <View
+      onLayout={({ nativeEvent }) => {
+        setContainerWidth(nativeEvent.layout.width);
+      }}
       style={[
         styles.container,
         {
           width,
           height,
           borderRadius,
+          backgroundColor,
         },
+        style,
       ]}
     >
       <Animated.View
@@ -66,14 +75,12 @@ const Shimmer = ({
 const styles = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    backgroundColor: '#E1E1E1',
   },
   highlight: {
     position: 'absolute',
     top: 0,
     bottom: 0,
     width: '40%',
-    transform: [{ skewX: '-20deg' }],
   },
 });
 

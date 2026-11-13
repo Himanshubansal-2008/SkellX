@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
+import SkeletonItem from './SkeletonItem';
 import { DEFAULT_BORDER_RADIUS } from '../constants/defaults';
-import useTheme from '../hooks/useTheme';
 
 const TextSkeleton = ({
   width = '100%',
@@ -11,22 +11,23 @@ const TextSkeleton = ({
   spacing = 8,
   color,
   borderRadius = DEFAULT_BORDER_RADIUS,
+  animation,
+  duration,
   style,
 }) => {
-  const theme = useTheme();
-  const skeletonColor = color || theme.backgroundColor;
-
   return (
     <View style={[styles.container, style]}>
       {Array.from({ length: lines }, (_, index) => (
-        <View
+        <SkeletonItem
           key={index}
+          width={index === lines - 1 ? '75%' : width}
+          height={lineHeight}
+          color={color}
+          borderRadius={borderRadius}
+          animation={animation}
+          duration={duration}
           style={{
-            width: index === lines - 1 ? '75%' : width,
-            height: lineHeight,
             marginBottom: index === lines - 1 ? 0 : spacing,
-            backgroundColor: skeletonColor,
-            borderRadius,
           }}
         />
       ))}
