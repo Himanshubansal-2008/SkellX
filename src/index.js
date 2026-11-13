@@ -24,3 +24,7 @@ export {
 } from './themes/themes';
 
 export { default as SkeletonGroup } from './components/SkeletonGroup';
+export { default as ProfileSkeleton } from './components/ProfileSkeleton';
+export { default as ListSkeleton } from './components/ListSkeleton';
+export { default as ArticleSkeleton } from './components/ArticleSkeleton';
+export { default as ProductSkeleton } from './components/ProductSkeleton';
