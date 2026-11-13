@@ -33,3 +33,5 @@ export { default as TableSkeleton } from './components/TableSkeleton';
 
 export { default as ButtonSkeleton } from './components/ButtonSkeleton';
 export { default as FormSkeleton } from './components/FormSkeleton';
+
+export { default as NotificationSkeleton } from './components/NotificationSkeleton';
