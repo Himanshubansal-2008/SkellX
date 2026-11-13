@@ -1,13 +1,13 @@
 import React from 'react';
 
 import SkeletonItem from './SkeletonItem';
-import { DEFAULT_BORDER_RADIUS } from '../constants/defaults';
 
 const BoxSkeleton = ({
   width = '100%',
-  height = 100,
+  height = 20,
+  borderRadius,
+  variant = 'rectangle',
   color,
-  borderRadius = DEFAULT_BORDER_RADIUS,
   animation,
   duration,
   direction,
@@ -17,12 +17,23 @@ const BoxSkeleton = ({
   maxOpacity,
   style,
 }) => {
+  const variantRadius = {
+    rectangle: 0,
+    rounded: 8,
+    pill: 999,
+  };
+
+  const resolvedBorderRadius =
+    borderRadius !== undefined
+      ? borderRadius
+      : variantRadius[variant] ?? variantRadius.rectangle;
+
   return (
     <SkeletonItem
       width={width}
       height={height}
+      borderRadius={resolvedBorderRadius}
       color={color}
-      borderRadius={borderRadius}
       animation={animation}
       duration={duration}
       direction={direction}

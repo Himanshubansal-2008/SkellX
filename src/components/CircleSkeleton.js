@@ -18,8 +18,8 @@ const CircleSkeleton = ({
     <SkeletonItem
       width={size}
       height={size}
-      color={color}
       borderRadius={size / 2}
+      color={color}
       animation={animation}
       duration={duration}
       direction={direction}
