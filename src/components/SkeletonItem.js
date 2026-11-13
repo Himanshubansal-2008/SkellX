@@ -19,6 +19,11 @@ const SkeletonItem = ({
   borderRadius = DEFAULT_BORDER_RADIUS,
   animation = DEFAULT_ANIMATION_TYPE,
   duration = DEFAULT_ANIMATION_DURATION,
+  direction = 'left',
+  highlightColor,
+  opacity = 0.5,
+  minOpacity = 0.4,
+  maxOpacity = 1,
   style,
 }) => {
   const theme = useTheme();
@@ -38,7 +43,12 @@ const SkeletonItem = ({
 
   if (animation === ANIMATION_TYPES.PULSE) {
     return (
-      <Pulse duration={duration} style={style}>
+      <Pulse
+        duration={duration}
+        minOpacity={minOpacity}
+        maxOpacity={maxOpacity}
+        style={style}
+      >
         <View style={baseStyle} />
       </Pulse>
     );
@@ -50,9 +60,11 @@ const SkeletonItem = ({
         width={width}
         height={height}
         duration={duration}
-        color={theme.highlightColor}
+        color={highlightColor || theme.highlightColor}
         backgroundColor={backgroundColor}
         borderRadius={borderRadius}
+        direction={direction}
+        opacity={opacity}
         style={style}
       />
     );

@@ -13,32 +13,44 @@ const CardSkeleton = ({
   spacing = 12,
   animation,
   duration,
+  direction,
+  highlightColor,
+  opacity,
+  minOpacity,
+  maxOpacity,
   style,
 }) => {
+  const animationProps = {
+    animation,
+    duration,
+    direction,
+    highlightColor,
+    opacity,
+    minOpacity,
+    maxOpacity,
+  };
+
   return (
     <View style={[styles.card, { width }, style]}>
       <BoxSkeleton
         width="100%"
         height={imageHeight}
         borderRadius={12}
-        animation={animation}
-        duration={duration}
+        {...animationProps}
       />
 
       <View style={styles.content}>
         <View style={styles.profile}>
           <CircleSkeleton
             size={avatarSize}
-            animation={animation}
-            duration={duration}
+            {...animationProps}
           />
 
           <View style={styles.text}>
             <TextSkeleton
               lines={2}
               lineHeight={10}
-              animation={animation}
-              duration={duration}
+              {...animationProps}
             />
           </View>
         </View>
@@ -47,8 +59,7 @@ const CardSkeleton = ({
           lines={lines}
           lineHeight={12}
           spacing={spacing}
-          animation={animation}
-          duration={duration}
+          {...animationProps}
         />
       </View>
     </View>

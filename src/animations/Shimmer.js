@@ -14,6 +14,7 @@ const Shimmer = ({
   backgroundColor = '#E1E1E1',
   opacity = 0.5,
   borderRadius = 8,
+  direction = 'left',
   style,
 }) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -37,15 +38,22 @@ const Shimmer = ({
     return () => animation.stop();
   }, [animatedValue, duration]);
 
+  const isRightToLeft = direction === 'right';
+
   const translateX = animatedValue.interpolate({
     inputRange: [0, 1],
-    outputRange: [-containerWidth, containerWidth],
+    outputRange: isRightToLeft
+      ? [containerWidth, -containerWidth]
+      : [-containerWidth, containerWidth],
   });
 
   return (
     <View
       onLayout={({ nativeEvent }) => {
-        setContainerWidth(nativeEvent.layout.width);
+        const measuredWidth = nativeEvent.layout.width;
+        setContainerWidth(current =>
+          current === measuredWidth ? current : measuredWidth
+        );
       }}
       style={[
         styles.container,

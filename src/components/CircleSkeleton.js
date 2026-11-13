@@ -7,6 +7,11 @@ const CircleSkeleton = ({
   color,
   animation,
   duration,
+  direction,
+  highlightColor,
+  opacity,
+  minOpacity,
+  maxOpacity,
   style,
 }) => {
   return (
@@ -17,6 +22,11 @@ const CircleSkeleton = ({
       borderRadius={size / 2}
       animation={animation}
       duration={duration}
+      direction={direction}
+      highlightColor={highlightColor}
+      opacity={opacity}
+      minOpacity={minOpacity}
+      maxOpacity={maxOpacity}
       style={style}
     />
   );

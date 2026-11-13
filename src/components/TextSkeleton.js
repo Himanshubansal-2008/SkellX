@@ -13,6 +13,11 @@ const TextSkeleton = ({
   borderRadius = DEFAULT_BORDER_RADIUS,
   animation,
   duration,
+  direction,
+  highlightColor,
+  opacity,
+  minOpacity,
+  maxOpacity,
   style,
 }) => {
   return (
@@ -26,6 +31,11 @@ const TextSkeleton = ({
           borderRadius={borderRadius}
           animation={animation}
           duration={duration}
+          direction={direction}
+          highlightColor={highlightColor}
+          opacity={opacity}
+          minOpacity={minOpacity}
+          maxOpacity={maxOpacity}
           style={{
             marginBottom: index === lines - 1 ? 0 : spacing,
           }}

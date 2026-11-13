@@ -10,6 +10,11 @@ const BoxSkeleton = ({
   borderRadius = DEFAULT_BORDER_RADIUS,
   animation,
   duration,
+  direction,
+  highlightColor,
+  opacity,
+  minOpacity,
+  maxOpacity,
   style,
 }) => {
   return (
@@ -20,6 +25,11 @@ const BoxSkeleton = ({
       borderRadius={borderRadius}
       animation={animation}
       duration={duration}
+      direction={direction}
+      highlightColor={highlightColor}
+      opacity={opacity}
+      minOpacity={minOpacity}
+      maxOpacity={maxOpacity}
       style={style}
     />
   );
