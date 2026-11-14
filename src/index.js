@@ -37,3 +37,5 @@ export { default as FormSkeleton } from './components/FormSkeleton';
 export { default as NotificationSkeleton } from './components/NotificationSkeleton';
 
 export { default as CommentSkeleton } from './components/CommentSkeleton';
+
+export { default as DashboardSkeleton } from './components/DashboardSkeleton';
