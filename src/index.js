@@ -41,3 +41,5 @@ export { default as CommentSkeleton } from './components/CommentSkeleton';
 export { default as DashboardSkeleton } from './components/DashboardSkeleton';
 
 export { default as SearchSkeleton } from './components/SearchSkeleton';
+
+export { default as EmptyStateSkeleton } from './components/EmptyStateSkeleton';
