@@ -33,12 +33,14 @@ const ArticleSkeleton = ({
 
   const safeTitleLines = toSafeCount(titleLines, 2);
   const safeContentLines = toSafeCount(contentLines, 4);
+  const safeImageHeight = toSafeCount(imageHeight, 200);
+  const safeSpacing = toSafeCount(spacing, 12);
 
   return (
-    <View style={[styles.container, { gap: spacing }, style]}>
+    <View style={[styles.container, { gap: safeSpacing }, style]}>
       <BoxSkeleton
         width="100%"
-        height={imageHeight}
+        height={safeImageHeight}
         borderRadius={12}
         {...animationProps}
       />

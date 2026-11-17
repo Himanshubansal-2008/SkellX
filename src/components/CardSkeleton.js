@@ -31,6 +31,9 @@ const CardSkeleton = ({
     (theme.name === 'dark' ? '#1F2937' : '#FFFFFF');
 
   const safeLines = toSafeCount(lines, 2);
+  const safeImageHeight = toSafeCount(imageHeight, 150);
+  const safeAvatarSize = toSafeCount(avatarSize, 40);
+  const safeSpacing = toSafeCount(spacing, 12);
 
   const animationProps = {
     color,
@@ -56,7 +59,7 @@ const CardSkeleton = ({
     >
       <BoxSkeleton
         width="100%"
-        height={imageHeight}
+        height={safeImageHeight}
         borderRadius={12}
         {...animationProps}
       />
@@ -64,7 +67,7 @@ const CardSkeleton = ({
       <View style={styles.content}>
         <View style={styles.profile}>
           <CircleSkeleton
-            size={avatarSize}
+            size={safeAvatarSize}
             {...animationProps}
           />
 
@@ -80,7 +83,7 @@ const CardSkeleton = ({
         <TextSkeleton
           lines={safeLines}
           lineHeight={12}
-          spacing={spacing}
+          spacing={safeSpacing}
           {...animationProps}
         />
       </View>

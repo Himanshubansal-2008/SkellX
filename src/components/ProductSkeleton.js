@@ -33,12 +33,14 @@ const ProductSkeleton = ({
   };
 
   const safeTitleLines = toSafeCount(titleLines, 2);
+  const safeImageHeight = toSafeCount(imageHeight, 180);
+  const safeSpacing = toSafeCount(spacing, 10);
 
   return (
-    <View style={[styles.container, { width, gap: spacing }, style]}>
+    <View style={[styles.container, { width, gap: safeSpacing }, style]}>
       <BoxSkeleton
         width="100%"
-        height={imageHeight}
+        height={safeImageHeight}
         borderRadius={12}
         {...animationProps}
       />
@@ -53,6 +55,7 @@ const ProductSkeleton = ({
       <BoxSkeleton
         width={priceWidth}
         height={16}
+        borderRadius={4}
         {...animationProps}
       />
     </View>

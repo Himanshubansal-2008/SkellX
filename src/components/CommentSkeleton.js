@@ -33,12 +33,14 @@ const CommentSkeleton = ({
   };
 
   const safeLines = toSafeCount(lines, 2);
+  const safeAvatarSize = toSafeCount(avatarSize, 40);
+  const safeSpacing = toSafeCount(spacing, 12);
 
   return (
-    <View style={[styles.container, { gap: spacing }, style]}>
+    <View style={[styles.container, { gap: safeSpacing }, style]}>
       {showAvatar && (
         <CircleSkeleton
-          size={avatarSize}
+          size={safeAvatarSize}
           {...animationProps}
         />
       )}

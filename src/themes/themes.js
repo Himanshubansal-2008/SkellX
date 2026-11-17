@@ -24,8 +24,10 @@ export const getTheme = (theme = 'light') => {
 };
 
 export const createTheme = (customTheme = {}) => {
+  const safeCustom =
+    typeof customTheme === 'object' && customTheme !== null ? customTheme : {};
   return {
     ...lightTheme,
-    ...customTheme,
+    ...safeCustom,
   };
 };

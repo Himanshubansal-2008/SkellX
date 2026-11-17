@@ -8,13 +8,17 @@ const SkeletonGroup = ({
   align = 'stretch',
   style,
 }) => {
+  const isSpacingValid =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0;
+  const resolvedSpacing = isSpacingValid ? spacing : 12;
+
   return (
     <View
       style={[
         styles.container,
         {
           flexDirection: direction === 'row' ? 'row' : 'column',
-          gap: spacing,
+          gap: resolvedSpacing,
           alignItems: align,
         },
         style,

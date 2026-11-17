@@ -34,6 +34,8 @@ const SearchSkeleton = ({
 
   const safeResults = toSafeCount(results, 5);
   const safeFilterCount = toSafeCount(filterCount, 4);
+  const safeThumbnailSize = toSafeCount(thumbnailSize, 64);
+  const safeSpacing = toSafeCount(spacing, 16);
 
   return (
     <View style={[styles.container, style]}>
@@ -70,12 +72,12 @@ const SearchSkeleton = ({
           (_, index) => (
             <View
               key={index}
-              style={[styles.result, { marginBottom: spacing }]}
+              style={[styles.result, { marginBottom: safeSpacing }]}
             >
               {showThumbnail && (
                 <BoxSkeleton
-                  width={thumbnailSize}
-                  height={thumbnailSize}
+                  width={safeThumbnailSize}
+                  height={safeThumbnailSize}
                   borderRadius={8}
                   {...animationProps}
                 />

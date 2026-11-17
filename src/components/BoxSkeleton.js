@@ -2,6 +2,8 @@ import React from 'react';
 
 import SkeletonItem from './SkeletonItem';
 
+const VALID_VARIANTS = ['rectangle', 'rounded', 'pill'];
+
 const BoxSkeleton = ({
   width = '100%',
   height = 20,
@@ -22,6 +24,15 @@ const BoxSkeleton = ({
     rounded: 8,
     pill: 999,
   };
+
+  const isVariantValid = variant === undefined || VALID_VARIANTS.includes(variant);
+  if (!isVariantValid) {
+    console.warn(
+      `[SkellX] Invalid BoxSkeleton variant "${variant}". Expected one of: ${VALID_VARIANTS.join(
+        ', '
+      )}. Defaulting to "rectangle".`
+    );
+  }
 
   const resolvedBorderRadius =
     borderRadius !== undefined

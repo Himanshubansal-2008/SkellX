@@ -59,6 +59,12 @@ const Shimmer = ({
   );
 
   useEffect(() => {
+    if (typeof width === 'number' && Number.isFinite(width) && width > 0) {
+      setContainerWidth(width);
+    }
+  }, [width]);
+
+  useEffect(() => {
     const animation = Animated.loop(
       Animated.timing(animatedValue, {
         toValue: 1,

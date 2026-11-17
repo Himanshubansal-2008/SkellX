@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import CircleSkeleton from './CircleSkeleton';
 import BoxSkeleton from './BoxSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const ProfileSkeleton = ({
   avatarSize = 48,
@@ -30,22 +31,27 @@ const ProfileSkeleton = ({
     maxOpacity,
   };
 
+  const safeAvatarSize = toSafeCount(avatarSize, 48);
+  const safeSpacing = toSafeCount(spacing, 8);
+
   return (
     <View style={[styles.container, style]}>
       <CircleSkeleton
-        size={avatarSize}
+        size={safeAvatarSize}
         {...animationProps}
       />
 
-      <View style={[styles.details, { gap: spacing }]}>
+      <View style={[styles.details, { gap: safeSpacing }]}>
         <BoxSkeleton
           width={nameWidth}
           height={14}
+          borderRadius={4}
           {...animationProps}
         />
         <BoxSkeleton
           width={subtitleWidth}
           height={10}
+          borderRadius={4}
           {...animationProps}
         />
       </View>

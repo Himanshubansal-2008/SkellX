@@ -30,12 +30,13 @@ const EmptyStateSkeleton = ({
   };
 
   const safeLines = toSafeCount(descriptionLines, 2);
+  const safeIllustrationSize = toSafeCount(illustrationSize, 120);
 
   return (
     <View style={[styles.container, style]}>
       <BoxSkeleton
-        width={illustrationSize}
-        height={illustrationSize}
+        width={safeIllustrationSize}
+        height={safeIllustrationSize}
         borderRadius={16}
         {...animationProps}
       />
