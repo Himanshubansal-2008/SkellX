@@ -11,6 +11,9 @@ import {
   DEFAULT_ANIMATION_TYPE,
   DEFAULT_BORDER_RADIUS,
 } from '../constants/defaults';
+import { isValidDimension } from '../utils/validateProps';
+
+const VALID_ANIMATIONS = Object.values(ANIMATION_TYPES);
 
 const SkeletonItem = ({
   width,
@@ -29,6 +32,18 @@ const SkeletonItem = ({
   const theme = useTheme();
   const backgroundColor = color || theme.backgroundColor;
 
+  if (width !== undefined && !isValidDimension(width)) {
+    console.warn(
+      `[SkellX] Invalid width dimension "${width}". Expected a non-negative number, percentage string (e.g. "100%"), or "auto".`
+    );
+  }
+
+  if (height !== undefined && !isValidDimension(height)) {
+    console.warn(
+      `[SkellX] Invalid height dimension "${height}". Expected a non-negative number, percentage string (e.g. "100%"), or "auto".`
+    );
+  }
+
   const baseStyle = {
     width,
     height,
@@ -37,24 +52,35 @@ const SkeletonItem = ({
     overflow: 'hidden',
   };
 
-  if (animation === ANIMATION_TYPES.STATIC) {
+  const resolvedAnimation = animation ?? DEFAULT_ANIMATION_TYPE;
+
+  if (!VALID_ANIMATIONS.includes(resolvedAnimation)) {
+    console.warn(
+      `[SkellX] Invalid animation "${resolvedAnimation}". Expected one of: ${VALID_ANIMATIONS.join(
+        ', '
+      )}. Falling back to "${ANIMATION_TYPES.STATIC}".`
+    );
     return <View style={[baseStyle, style]} />;
   }
 
-  if (animation === ANIMATION_TYPES.PULSE) {
+  if (resolvedAnimation === ANIMATION_TYPES.STATIC) {
+    return <View style={[baseStyle, style]} />;
+  }
+
+  if (resolvedAnimation === ANIMATION_TYPES.PULSE) {
     return (
       <Pulse
         duration={duration}
         minOpacity={minOpacity}
         maxOpacity={maxOpacity}
-        style={style}
+        style={[{ width, height }, style]}
       >
         <View style={baseStyle} />
       </Pulse>
     );
   }
 
-  if (animation === ANIMATION_TYPES.SHIMMER) {
+  if (resolvedAnimation === ANIMATION_TYPES.SHIMMER) {
     return (
       <Shimmer
         width={width}

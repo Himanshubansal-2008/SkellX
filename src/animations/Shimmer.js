@@ -6,17 +6,23 @@ import {
   View,
 } from 'react-native';
 
+import useTheme from '../hooks/useTheme';
+
 const Shimmer = ({
   width = 200,
   height = 100,
   duration = 1200,
-  color = '#FFFFFF',
-  backgroundColor = '#E1E1E1',
+  color,
+  backgroundColor,
   opacity = 0.5,
   borderRadius = 8,
   direction = 'left',
   style,
 }) => {
+  const theme = useTheme();
+  const resolvedBg = backgroundColor || theme.backgroundColor;
+  const resolvedHighlight = color || theme.highlightColor;
+
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const [containerWidth, setContainerWidth] = useState(
@@ -61,7 +67,7 @@ const Shimmer = ({
           width,
           height,
           borderRadius,
-          backgroundColor,
+          backgroundColor: resolvedBg,
         },
         style,
       ]}
@@ -70,7 +76,7 @@ const Shimmer = ({
         style={[
           styles.highlight,
           {
-            backgroundColor: color,
+            backgroundColor: resolvedHighlight,
             opacity,
             transform: [{ translateX }],
           },

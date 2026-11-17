@@ -1,97 +1,106 @@
 # SkellX
 
-**A customizable skeleton loading component library for React Native.**
+**A customizable, production-ready skeleton loading component library for React Native.**
 
-SkellX provides reusable skeleton components with shimmer, pulse, and static animation modes. Build loading placeholders for common mobile UI patterns with customizable shapes, layouts, and themes.
+SkellX provides reusable, high-performance skeleton loading components with shimmer, pulse, and static animation modes. Build elegant loading placeholders for common mobile UI patterns with customizable shapes, layouts, light/dark themes, and zero external native dependencies.
+
+---
 
 ## Features
 
-- **Multiple animations:** Shimmer, pulse, and static modes.
-- **Reusable components:** Ready-made skeletons for common UI layouts.
-- **Customizable appearance:** Adjust dimensions, colors, border radius, and spacing.
-- **Theme support:** Built-in light and dark themes, with custom themes.
-- **Composition:** Combine skeleton elements to create custom loading layouts.
-- **React Native:** Designed for React Native applications.
+- **Multiple Animation Modes:** Smooth shimmer, pulse, and static modes driven by React Native's native animated driver.
+- **18 Reusable Components:** Ready-made skeletons for common mobile UI patterns plus primitive building blocks.
+- **Theme Support:** Built-in light and dark themes with full support for custom color themes.
+- **Card & Container Theming:** Seamless background and highlight color adaptation across dark and light modes.
+- **Robust Dimension Validation:** Full support for numeric dimensions, percentage strings, and responsive layouts.
+- **Zero Native Dependencies:** Pure React Native implementation that works seamlessly with Expo and React Native CLI.
+
+---
 
 ## Installation
-
-Once published to npm:
 
 ```bash
 npm install skellx
 ```
 
-For local development, clone the repository:
+### Peer Dependencies
+
+Ensure `react` and `react-native` are installed in your project:
 
 ```bash
-git clone https://github.com/Himanshubansal-2008/SkellX.git
-cd SkellX
-npm install
+npm install react react-native
 ```
+
+*(React >= 18.0.0 and React Native >= 0.73.0 are supported)*
+
+---
 
 ## Quick Start
 
 ```jsx
 import React from 'react';
 import { View } from 'react-native';
-
 import {
   BoxSkeleton,
   CircleSkeleton,
   TextSkeleton,
+  CardSkeleton,
 } from 'skellx';
 
-const App = () => {
+const LoadingScreen = () => {
   return (
-    <View style={{ padding: 20 }}>
+    <View style={{ padding: 16 }}>
+      {/* Basic shapes */}
       <CircleSkeleton size={60} />
-
-      <BoxSkeleton
-        width="100%"
-        height={150}
-        borderRadius={12}
-      />
-
+      <BoxSkeleton width="100%" height={24} borderRadius={6} style={{ marginVertical: 12 }} />
       <TextSkeleton lines={3} />
+
+      {/* Preset layout */}
+      <CardSkeleton style={{ marginTop: 20 }} />
     </View>
   );
 };
 
-export default App;
+export default LoadingScreen;
 ```
+
+---
 
 ## Components
 
-SkellX includes 18 reusable components:
+SkellX includes 18 pre-built skeleton components and primitives:
 
-| Component | Description |
-|---|---|
-| `BoxSkeleton` | Basic rectangular skeleton |
-| `CircleSkeleton` | Circular skeleton |
-| `TextSkeleton` | Text-line placeholder |
-| `CardSkeleton` | Card loading layout |
-| `SkeletonGroup` | Groups skeleton elements |
-| `ProfileSkeleton` | Profile loading layout |
-| `ListSkeleton` | List item placeholders |
-| `ArticleSkeleton` | Article loading layout |
-| `ProductSkeleton` | Product loading layout |
-| `GridSkeleton` | Grid loading layout |
-| `TableSkeleton` | Table loading layout |
-| `ButtonSkeleton` | Button placeholder |
-| `FormSkeleton` | Form loading layout |
-| `NotificationSkeleton` | Notification placeholder |
-| `CommentSkeleton` | Comment loading layout |
-| `DashboardSkeleton` | Dashboard loading layout |
-| `SearchSkeleton` | Search results loading layout |
-| `EmptyStateSkeleton` | Empty state placeholder |
+| Component | Description | Key Props |
+|---|---|---|
+| `BoxSkeleton` | Rectangular skeleton with rectangle, rounded, or pill variants | `width`, `height`, `variant`, `borderRadius` |
+| `CircleSkeleton` | Circular skeleton (avatar, icon) | `size`, `color` |
+| `TextSkeleton` | Multi-line text placeholder with natural line wrapping | `lines`, `lineHeight`, `spacing`, `width` |
+| `CardSkeleton` | Card layout with media, avatar, and text lines | `imageHeight`, `avatarSize`, `lines`, `spacing` |
+| `SkeletonGroup` | Container for grouping skeletons with flex direction and gap | `direction`, `spacing`, `align` |
+| `ProfileSkeleton` | User profile row (avatar + name + subtitle) | `avatarSize`, `nameWidth`, `subtitleWidth`, `spacing` |
+| `ListSkeleton` | Vertical list of item placeholders | `count`, `avatarSize`, `lines`, `itemSpacing` |
+| `ArticleSkeleton` | Article layout with hero image, title, and body | `imageHeight`, `titleLines`, `contentLines`, `spacing` |
+| `ProductSkeleton` | E-commerce product card with image, title, and price | `imageHeight`, `titleLines`, `priceWidth`, `spacing` |
+| `GridSkeleton` | Responsive multi-column grid layout | `count`, `columns`, `itemHeight`, `showText`, `spacing` |
+| `TableSkeleton` | Data table rows and columns placeholder | `rows`, `columns`, `rowHeight`, `spacing` |
+| `ButtonSkeleton` | Button placeholder | `width`, `height`, `borderRadius` |
+| `FormSkeleton` | Form placeholder with input fields and optional labels | `fields`, `inputHeight`, `showLabels`, `labelWidth` |
+| `NotificationSkeleton` | Notification item with avatar, title, and timestamp | `avatarSize`, `showTimestamp`, `showDescription` |
+| `CommentSkeleton` | Comment item with avatar, author, timestamp, and text | `avatarSize`, `lines`, `showAvatar`, `showTimestamp` |
+| `DashboardSkeleton` | Dashboard view with metrics, chart, and activity list | `stats`, `activities`, `showChart` |
+| `SearchSkeleton` | Search interface with search bar, filters, and results | `results`, `showFilters`, `showThumbnail`, `thumbnailSize` |
+| `EmptyStateSkeleton` | Centered illustration, heading, text, and action button | `illustrationSize`, `showAction`, `descriptionLines` |
+| `SkeletonItem` | Core base primitive component powering all skeleton variants | `width`, `height`, `borderRadius`, `animation`, `color` |
+
+---
 
 ## Animation Modes
 
-SkellX supports three animation modes:
+All components support three animation modes via the `animation` prop:
 
-### Shimmer
+### 1. Shimmer (Default)
 
-A moving highlight effect across the skeleton.
+A smooth moving highlight sweep across the skeleton:
 
 ```jsx
 <BoxSkeleton
@@ -99,12 +108,13 @@ A moving highlight effect across the skeleton.
   height={100}
   animation="shimmer"
   duration={1200}
+  direction="left"
 />
 ```
 
-### Pulse
+### 2. Pulse
 
-A smooth opacity transition.
+A smooth opacity fade loop:
 
 ```jsx
 <BoxSkeleton
@@ -112,12 +122,14 @@ A smooth opacity transition.
   height={100}
   animation="pulse"
   duration={1000}
+  minOpacity={0.4}
+  maxOpacity={1}
 />
 ```
 
-### Static
+### 3. Static
 
-A non-animated placeholder.
+A solid, non-animated placeholder:
 
 ```jsx
 <BoxSkeleton
@@ -127,65 +139,67 @@ A non-animated placeholder.
 />
 ```
 
+---
+
 ## Theme Support
 
-SkellX provides built-in light and dark themes through `SkeletonThemeProvider`.
+SkellX features built-in theme management via `SkeletonThemeProvider`.
+
+### Built-in Light and Dark Themes
 
 ```jsx
 import React from 'react';
+import { SkeletonThemeProvider, CardSkeleton } from 'skellx';
 
-import {
-  SkeletonThemeProvider,
-  CardSkeleton,
-} from 'skellx';
+export const LightExample = () => (
+  <SkeletonThemeProvider theme="light">
+    <CardSkeleton />
+  </SkeletonThemeProvider>
+);
 
-const App = () => {
-  return (
-    <SkeletonThemeProvider theme="dark">
-      <CardSkeleton />
-    </SkeletonThemeProvider>
-  );
-};
-
-export default App;
+export const DarkExample = () => (
+  <SkeletonThemeProvider theme="dark">
+    <CardSkeleton />
+  </SkeletonThemeProvider>
+);
 ```
 
-### Custom Theme
+### Custom Themes
 
-You can also create your own theme.
+Create customized color themes using `createTheme`:
 
 ```jsx
-import {
-  SkeletonThemeProvider,
-  createTheme,
-} from 'skellx';
+import React from 'react';
+import { SkeletonThemeProvider, createTheme, ProfileSkeleton } from 'skellx';
 
 const customTheme = createTheme({
-  backgroundColor: '#222222',
-  highlightColor: '#444444',
+  backgroundColor: '#1E293B',
+  highlightColor: '#334155',
+  cardBackground: '#0F172A',
 });
 
-const App = () => {
-  return (
-    <SkeletonThemeProvider theme={customTheme}>
-      {/* Your components */}
-    </SkeletonThemeProvider>
-  );
-};
+const ThemedApp = () => (
+  <SkeletonThemeProvider theme={customTheme}>
+    <ProfileSkeleton />
+  </SkeletonThemeProvider>
+);
 ```
 
-## Advanced Customization
+---
 
-Most skeleton components support customization options such as:
+## Common Customization Props
 
-- `width` and `height`
-- `color` and `highlightColor`
-- `borderRadius`
-- `animation`
-- `duration`
-- `style`
+Most components accept the following customization props:
 
-Individual components may provide additional layout-specific props.
+- `color`: Background color of the skeleton elements.
+- `highlightColor`: Color of the shimmer highlight.
+- `animation`: `'shimmer'` | `'pulse'` | `'static'`.
+- `duration`: Animation duration in milliseconds.
+- `direction`: Shimmer movement direction (`'left'` or `'right'`).
+- `opacity`: Opacity of the shimmer highlight.
+- `style`: Custom React Native `ViewStyle` passed to the component container.
+
+---
 
 ## Project Structure
 
@@ -196,22 +210,31 @@ SkellX/
 │   │   ├── Pulse.js
 │   │   └── Shimmer.js
 │   ├── components/
+│   │   ├── BoxSkeleton.js
+│   │   ├── CircleSkeleton.js
+│   │   ├── TextSkeleton.js
+│   │   ├── CardSkeleton.js
+│   │   ├── SkeletonItem.js
+│   │   ├── SkeletonGroup.js
+│   │   └── ... (presets)
 │   ├── constants/
+│   │   ├── animations.js
+│   │   └── defaults.js
 │   ├── hooks/
+│   │   └── useTheme.js
 │   ├── themes/
+│   │   ├── ThemeContext.js
+│   │   └── themes.js
 │   ├── utils/
+│   │   └── validateProps.js
 │   └── index.js
+├── LICENSE
 ├── package.json
 └── Readme.md
 ```
 
-## Tech Stack
-
-- React
-- React Native
-- JavaScript
-- React Native Animated API
+---
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](LICENSE).

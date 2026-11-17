@@ -30,10 +30,15 @@ const FormSkeleton = ({
     maxOpacity,
   };
 
+  const safeFields = Math.max(0, fields);
+
   return (
     <View style={[styles.container, style]}>
-      {Array.from({ length: fields }, (_, index) => (
-        <View key={index} style={{ marginBottom: spacing }}>
+      {Array.from({ length: safeFields }, (_, index) => (
+        <View
+          key={index}
+          style={{ marginBottom: index === safeFields - 1 ? 0 : spacing }}
+        >
           {showLabels && (
             <BoxSkeleton
               width={labelWidth}

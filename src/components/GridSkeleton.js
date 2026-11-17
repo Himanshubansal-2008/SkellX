@@ -35,7 +35,7 @@ const GridSkeleton = ({
 
   return (
     <View style={[styles.container, style]}>
-      {Array.from({ length: count }, (_, index) => (
+      {Array.from({ length: Math.max(0, count) }, (_, index) => (
         <View
           key={index}
           style={[

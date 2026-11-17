@@ -33,7 +33,7 @@ const ListSkeleton = ({
 
   return (
     <View style={[styles.container, { gap: itemSpacing }, style]}>
-      {Array.from({ length: count }, (_, index) => (
+      {Array.from({ length: Math.max(0, count) }, (_, index) => (
         <View key={index} style={styles.item}>
           <CircleSkeleton
             size={avatarSize}

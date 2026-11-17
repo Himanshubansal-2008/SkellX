@@ -20,27 +20,39 @@ const TextSkeleton = ({
   maxOpacity,
   style,
 }) => {
+  const resolvedLines = Math.max(0, lines);
+
   return (
     <View style={[styles.container, style]}>
-      {Array.from({ length: lines }, (_, index) => (
-        <SkeletonItem
-          key={index}
-          width={index === lines - 1 ? '75%' : width}
-          height={lineHeight}
-          color={color}
-          borderRadius={borderRadius}
-          animation={animation}
-          duration={duration}
-          direction={direction}
-          highlightColor={highlightColor}
-          opacity={opacity}
-          minOpacity={minOpacity}
-          maxOpacity={maxOpacity}
-          style={{
-            marginBottom: index === lines - 1 ? 0 : spacing,
-          }}
-        />
-      ))}
+      {Array.from({ length: resolvedLines }, (_, index) => {
+        const isLastLine = index === resolvedLines - 1;
+        const lineWidth =
+          resolvedLines > 1 && isLastLine
+            ? typeof width === 'number'
+              ? width * 0.75
+              : '75%'
+            : width;
+
+        return (
+          <SkeletonItem
+            key={index}
+            width={lineWidth}
+            height={lineHeight}
+            color={color}
+            borderRadius={borderRadius}
+            animation={animation}
+            duration={duration}
+            direction={direction}
+            highlightColor={highlightColor}
+            opacity={opacity}
+            minOpacity={minOpacity}
+            maxOpacity={maxOpacity}
+            style={{
+              marginBottom: isLastLine ? 0 : spacing,
+            }}
+          />
+        );
+      })}
     </View>
   );
 };

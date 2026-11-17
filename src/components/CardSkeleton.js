@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import BoxSkeleton from './BoxSkeleton';
 import CircleSkeleton from './CircleSkeleton';
 import TextSkeleton from './TextSkeleton';
+import useTheme from '../hooks/useTheme';
 
 const CardSkeleton = ({
   width = '100%',
@@ -11,6 +12,8 @@ const CardSkeleton = ({
   avatarSize = 40,
   lines = 2,
   spacing = 12,
+  color,
+  cardBackgroundColor,
   animation,
   duration,
   direction,
@@ -20,7 +23,14 @@ const CardSkeleton = ({
   maxOpacity,
   style,
 }) => {
+  const theme = useTheme();
+  const resolvedCardBackground =
+    cardBackgroundColor ||
+    theme.cardBackground ||
+    (theme.name === 'dark' ? '#1F2937' : '#FFFFFF');
+
   const animationProps = {
+    color,
     animation,
     duration,
     direction,
@@ -31,7 +41,16 @@ const CardSkeleton = ({
   };
 
   return (
-    <View style={[styles.card, { width }, style]}>
+    <View
+      style={[
+        styles.card,
+        {
+          width,
+          backgroundColor: resolvedCardBackground,
+        },
+        style,
+      ]}
+    >
       <BoxSkeleton
         width="100%"
         height={imageHeight}
@@ -68,7 +87,6 @@ const CardSkeleton = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     overflow: 'hidden',
     padding: 12,

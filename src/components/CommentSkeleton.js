@@ -60,7 +60,7 @@ const CommentSkeleton = ({
         </View>
 
         <View style={styles.description}>
-          {Array.from({ length: lines }, (_, index) => (
+          {Array.from({ length: Math.max(0, lines) }, (_, index) => (
             <BoxSkeleton
               key={index}
               width={index === lines - 1 ? '65%' : '100%'}

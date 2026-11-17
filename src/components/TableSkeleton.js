@@ -31,14 +31,20 @@ const TableSkeleton = ({
 
   const cellWidth = `${100 / Math.max(1, columns)}%`;
 
+  const safeRows = Math.max(0, rows);
+  const safeColumns = Math.max(0, columns);
+
   return (
     <View style={[styles.container, style]}>
-      {Array.from({ length: rows }, (_, rowIndex) => (
+      {Array.from({ length: safeRows }, (_, rowIndex) => (
         <View
           key={rowIndex}
-          style={[styles.row, { marginBottom: spacing }]}
+          style={[
+            styles.row,
+            { marginBottom: rowIndex === safeRows - 1 ? 0 : spacing },
+          ]}
         >
-          {Array.from({ length: columns }, (_, columnIndex) => (
+          {Array.from({ length: safeColumns }, (_, columnIndex) => (
             <View
               key={columnIndex}
               style={[styles.cell, { width: cellWidth }]}
