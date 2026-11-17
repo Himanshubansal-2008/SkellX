@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import CircleSkeleton from './CircleSkeleton';
 import TextSkeleton from './TextSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const ListSkeleton = ({
   count = 4,
@@ -31,9 +32,12 @@ const ListSkeleton = ({
     maxOpacity,
   };
 
+  const safeCount = toSafeCount(count, 4);
+  const safeLines = toSafeCount(lines, 2);
+
   return (
     <View style={[styles.container, { gap: itemSpacing }, style]}>
-      {Array.from({ length: Math.max(0, count) }, (_, index) => (
+      {Array.from({ length: safeCount }, (_, index) => (
         <View key={index} style={styles.item}>
           <CircleSkeleton
             size={avatarSize}
@@ -42,7 +46,7 @@ const ListSkeleton = ({
 
           <View style={styles.details}>
             <TextSkeleton
-              lines={lines}
+              lines={safeLines}
               spacing={spacing}
               {...animationProps}
             />

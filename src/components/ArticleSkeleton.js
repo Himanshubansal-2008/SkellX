@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import TextSkeleton from './TextSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const ArticleSkeleton = ({
   imageHeight = 200,
@@ -30,6 +31,9 @@ const ArticleSkeleton = ({
     maxOpacity,
   };
 
+  const safeTitleLines = toSafeCount(titleLines, 2);
+  const safeContentLines = toSafeCount(contentLines, 4);
+
   return (
     <View style={[styles.container, { gap: spacing }, style]}>
       <BoxSkeleton
@@ -40,14 +44,14 @@ const ArticleSkeleton = ({
       />
 
       <TextSkeleton
-        lines={titleLines}
+        lines={safeTitleLines}
         lineHeight={18}
         spacing={8}
         {...animationProps}
       />
 
       <TextSkeleton
-        lines={contentLines}
+        lines={safeContentLines}
         lineHeight={12}
         spacing={8}
         {...animationProps}

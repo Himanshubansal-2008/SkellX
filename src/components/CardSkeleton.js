@@ -5,6 +5,7 @@ import BoxSkeleton from './BoxSkeleton';
 import CircleSkeleton from './CircleSkeleton';
 import TextSkeleton from './TextSkeleton';
 import useTheme from '../hooks/useTheme';
+import { toSafeCount } from '../utils/validateProps';
 
 const CardSkeleton = ({
   width = '100%',
@@ -28,6 +29,8 @@ const CardSkeleton = ({
     cardBackgroundColor ||
     theme.cardBackground ||
     (theme.name === 'dark' ? '#1F2937' : '#FFFFFF');
+
+  const safeLines = toSafeCount(lines, 2);
 
   const animationProps = {
     color,
@@ -75,7 +78,7 @@ const CardSkeleton = ({
         </View>
 
         <TextSkeleton
-          lines={lines}
+          lines={safeLines}
           lineHeight={12}
           spacing={spacing}
           {...animationProps}

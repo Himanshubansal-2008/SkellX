@@ -7,11 +7,14 @@ import {
 } from 'react-native';
 
 import useTheme from '../hooks/useTheme';
+import { DEFAULT_ANIMATION_DURATION } from '../constants/defaults';
+
+const VALID_DIRECTIONS = ['left', 'right'];
 
 const Shimmer = ({
   width = 200,
   height = 100,
-  duration = 1200,
+  duration = DEFAULT_ANIMATION_DURATION,
   color,
   backgroundColor,
   opacity = 0.5,
@@ -23,17 +26,43 @@ const Shimmer = ({
   const resolvedBg = backgroundColor || theme.backgroundColor;
   const resolvedHighlight = color || theme.highlightColor;
 
+  const isDirectionValid = direction === undefined || VALID_DIRECTIONS.includes(direction);
+  if (!isDirectionValid) {
+    console.warn(
+      `[SkellX] Invalid shimmer direction "${direction}". Expected "left" or "right". Defaulting to "left".`
+    );
+  }
+  const resolvedDirection = isDirectionValid ? (direction ?? 'left') : 'left';
+
+  const isDurationValid =
+    typeof duration === 'number' && Number.isFinite(duration) && duration > 0;
+  if (!isDurationValid && duration !== undefined) {
+    console.warn(
+      `[SkellX] Invalid shimmer duration "${duration}". Expected a positive number. Using default (${DEFAULT_ANIMATION_DURATION}ms).`
+    );
+  }
+  const resolvedDuration = isDurationValid ? duration : DEFAULT_ANIMATION_DURATION;
+
+  const isOpacityValid =
+    typeof opacity === 'number' && Number.isFinite(opacity) && opacity >= 0 && opacity <= 1;
+  if (!isOpacityValid && opacity !== undefined) {
+    console.warn(
+      `[SkellX] Invalid shimmer opacity "${opacity}". Expected a number between 0 and 1. Defaulting to 0.5.`
+    );
+  }
+  const resolvedOpacity = isOpacityValid ? opacity : 0.5;
+
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const [containerWidth, setContainerWidth] = useState(
-    typeof width === 'number' ? width : 0
+    typeof width === 'number' && Number.isFinite(width) && width > 0 ? width : 0
   );
 
   useEffect(() => {
     const animation = Animated.loop(
       Animated.timing(animatedValue, {
         toValue: 1,
-        duration,
+        duration: resolvedDuration,
         easing: Easing.linear,
         useNativeDriver: true,
       })
@@ -42,9 +71,9 @@ const Shimmer = ({
     animation.start();
 
     return () => animation.stop();
-  }, [animatedValue, duration]);
+  }, [animatedValue, resolvedDuration]);
 
-  const isRightToLeft = direction === 'right';
+  const isRightToLeft = resolvedDirection === 'right';
 
   const translateX = animatedValue.interpolate({
     inputRange: [0, 1],
@@ -77,7 +106,7 @@ const Shimmer = ({
           styles.highlight,
           {
             backgroundColor: resolvedHighlight,
-            opacity,
+            opacity: resolvedOpacity,
             transform: [{ translateX }],
           },
         ]}

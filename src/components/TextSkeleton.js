@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import SkeletonItem from './SkeletonItem';
 import { DEFAULT_BORDER_RADIUS } from '../constants/defaults';
+import { toSafeCount } from '../utils/validateProps';
 
 const TextSkeleton = ({
   width = '100%',
@@ -20,7 +21,7 @@ const TextSkeleton = ({
   maxOpacity,
   style,
 }) => {
-  const resolvedLines = Math.max(0, lines);
+  const resolvedLines = toSafeCount(lines, 2);
 
   return (
     <View style={[styles.container, style]}>

@@ -13,3 +13,19 @@ export const isValidDimension = (value) => {
 
   return false;
 };
+
+export const toSafeCount = (value, fallback = 0) => {
+  const num = Number(value);
+  if (Number.isFinite(num) && num >= 0) {
+    return Math.floor(num);
+  }
+  return fallback;
+};
+
+export const toSafeColumns = (value, fallback = 1) => {
+  const num = Number(value);
+  if (Number.isFinite(num) && num >= 1) {
+    return Math.floor(num);
+  }
+  return Math.max(1, fallback);
+};

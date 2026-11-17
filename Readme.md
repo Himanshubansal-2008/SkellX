@@ -9,11 +9,11 @@ SkellX provides reusable, high-performance skeleton loading components with shim
 ## Features
 
 - **Multiple Animation Modes:** Smooth shimmer, pulse, and static modes driven by React Native's native animated driver.
-- **18 Reusable Components:** Ready-made skeletons for common mobile UI patterns plus primitive building blocks.
+- **18 Reusable Skeleton Presets + Base Primitive:** 18 ready-made skeleton layouts for common mobile UI patterns plus the foundational `SkeletonItem` primitive (19 components total).
 - **Theme Support:** Built-in light and dark themes with full support for custom color themes.
 - **Card & Container Theming:** Seamless background and highlight color adaptation across dark and light modes.
-- **Robust Dimension Validation:** Full support for numeric dimensions, percentage strings, and responsive layouts.
-- **Zero Native Dependencies:** Pure React Native implementation that works seamlessly with Expo and React Native CLI.
+- **Robust Dimension & Prop Validation:** Strict validation for numeric dimensions, percentage strings, and layout bounds to prevent React Native runtime crashes.
+- **Zero Native Dependencies:** Pure React Native implementation that works seamlessly with Expo and React Native CLI without native linking.
 
 ---
 
@@ -68,14 +68,14 @@ export default LoadingScreen;
 
 ## Components
 
-SkellX includes 18 pre-built skeleton components and primitives:
+SkellX exports **18 ready-made skeleton layouts and shapes**, along with the foundational **`SkeletonItem`** primitive (19 components total):
 
 | Component | Description | Key Props |
 |---|---|---|
 | `BoxSkeleton` | Rectangular skeleton with rectangle, rounded, or pill variants | `width`, `height`, `variant`, `borderRadius` |
-| `CircleSkeleton` | Circular skeleton (avatar, icon) | `size`, `color` |
+| `CircleSkeleton` | Circular skeleton (avatar, icon) with percentage string support | `size`, `borderRadius`, `color` |
 | `TextSkeleton` | Multi-line text placeholder with natural line wrapping | `lines`, `lineHeight`, `spacing`, `width` |
-| `CardSkeleton` | Card layout with media, avatar, and text lines | `imageHeight`, `avatarSize`, `lines`, `spacing` |
+| `CardSkeleton` | Card layout with media, avatar, and text lines | `imageHeight`, `avatarSize`, `lines`, `spacing`, `cardBackgroundColor` |
 | `SkeletonGroup` | Container for grouping skeletons with flex direction and gap | `direction`, `spacing`, `align` |
 | `ProfileSkeleton` | User profile row (avatar + name + subtitle) | `avatarSize`, `nameWidth`, `subtitleWidth`, `spacing` |
 | `ListSkeleton` | Vertical list of item placeholders | `count`, `avatarSize`, `lines`, `itemSpacing` |
@@ -112,6 +112,10 @@ A smooth moving highlight sweep across the skeleton:
 />
 ```
 
+- `direction`: `'left'` (left-to-right) or `'right'` (right-to-left).
+- `duration`: Duration in milliseconds (default: `1200`).
+- `opacity`: Highlight opacity between `0` and `1` (default: `0.5`).
+
 ### 2. Pulse
 
 A smooth opacity fade loop:
@@ -126,6 +130,10 @@ A smooth opacity fade loop:
   maxOpacity={1}
 />
 ```
+
+- `duration`: Loop duration in milliseconds (default: `1000`).
+- `minOpacity`: Minimum opacity between `0` and `1` (default: `0.4`).
+- `maxOpacity`: Maximum opacity between `0` and `1` (default: `1`).
 
 ### 3. Static
 
@@ -184,6 +192,22 @@ const ThemedApp = () => (
   </SkeletonThemeProvider>
 );
 ```
+
+---
+
+## Dimension & Prop Validation
+
+SkellX features robust dimension validation and error resilience to prevent common React Native crashes:
+
+- **Supported Dimensions:**
+  - Non-negative numbers: `100`, `44`, `0`
+  - Percentage strings: `'100%'`, `'50%'`, `'33.3%'`
+  - Automatic layout sizing: `'auto'`
+- **Crash Prevention:**
+  - Invalid values such as `'hello'`, `'invalid'`, or unsupported units like `'100px'` trigger informative development warnings and are safely ignored rather than crashing React Native's Yoga layout engine.
+  - Count and line props (`count`, `lines`, `rows`, `columns`, `fields`) are sanitized to non-negative integers to eliminate `RangeError: Invalid array length` exceptions.
+  - Grid columns are protected to prevent division-by-zero or `NaN%` width calculations.
+  - `CircleSkeleton` supports percentage dimensions (e.g. `size="50%"`) and guards against `NaN` `borderRadius` values.
 
 ---
 

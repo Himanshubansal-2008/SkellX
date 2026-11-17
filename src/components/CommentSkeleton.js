@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import CircleSkeleton from './CircleSkeleton';
 import BoxSkeleton from './BoxSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const CommentSkeleton = ({
   avatarSize = 40,
@@ -30,6 +31,8 @@ const CommentSkeleton = ({
     minOpacity,
     maxOpacity,
   };
+
+  const safeLines = toSafeCount(lines, 2);
 
   return (
     <View style={[styles.container, { gap: spacing }, style]}>
@@ -60,10 +63,10 @@ const CommentSkeleton = ({
         </View>
 
         <View style={styles.description}>
-          {Array.from({ length: Math.max(0, lines) }, (_, index) => (
+          {Array.from({ length: safeLines }, (_, index) => (
             <BoxSkeleton
               key={index}
-              width={index === lines - 1 ? '65%' : '100%'}
+              width={index === safeLines - 1 ? '65%' : '100%'}
               height={10}
               borderRadius={4}
               style={index > 0 ? styles.line : undefined}

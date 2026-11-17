@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import TextSkeleton from './TextSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const ProductSkeleton = ({
   width = '100%',
@@ -31,6 +32,8 @@ const ProductSkeleton = ({
     maxOpacity,
   };
 
+  const safeTitleLines = toSafeCount(titleLines, 2);
+
   return (
     <View style={[styles.container, { width, gap: spacing }, style]}>
       <BoxSkeleton
@@ -41,7 +44,7 @@ const ProductSkeleton = ({
       />
 
       <TextSkeleton
-        lines={titleLines}
+        lines={safeTitleLines}
         lineHeight={14}
         spacing={6}
         {...animationProps}

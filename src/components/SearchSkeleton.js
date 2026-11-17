@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const SearchSkeleton = ({
   results = 5,
@@ -31,6 +32,9 @@ const SearchSkeleton = ({
     maxOpacity,
   };
 
+  const safeResults = toSafeCount(results, 5);
+  const safeFilterCount = toSafeCount(filterCount, 4);
+
   return (
     <View style={[styles.container, style]}>
       {/* Search bar */}
@@ -45,7 +49,7 @@ const SearchSkeleton = ({
       {showFilters && (
         <View style={styles.filters}>
           {Array.from(
-            { length: Math.max(0, filterCount) },
+            { length: safeFilterCount },
             (_, index) => (
               <BoxSkeleton
                 key={index}
@@ -62,7 +66,7 @@ const SearchSkeleton = ({
       {/* Search results */}
       <View style={styles.results}>
         {Array.from(
-          { length: Math.max(0, results) },
+          { length: safeResults },
           (_, index) => (
             <View
               key={index}

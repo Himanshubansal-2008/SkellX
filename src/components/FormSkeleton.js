@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const FormSkeleton = ({
   fields = 3,
@@ -30,7 +31,7 @@ const FormSkeleton = ({
     maxOpacity,
   };
 
-  const safeFields = Math.max(0, fields);
+  const safeFields = toSafeCount(fields, 3);
 
   return (
     <View style={[styles.container, style]}>

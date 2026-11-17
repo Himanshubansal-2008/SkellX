@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import CircleSkeleton from './CircleSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const DashboardSkeleton = ({
   stats = 4,
@@ -29,6 +30,9 @@ const DashboardSkeleton = ({
     maxOpacity,
   };
 
+  const safeStats = toSafeCount(stats, 4);
+  const safeActivities = toSafeCount(activities, 3);
+
   return (
     <View style={[styles.container, style]}>
       {/* Dashboard heading */}
@@ -50,7 +54,7 @@ const DashboardSkeleton = ({
 
       {/* Statistic cards */}
       <View style={styles.stats}>
-        {Array.from({ length: Math.max(0, stats) }, (_, index) => (
+        {Array.from({ length: safeStats }, (_, index) => (
           <View key={index} style={styles.statCard}>
             <BoxSkeleton
               width="55%"
@@ -98,7 +102,7 @@ const DashboardSkeleton = ({
           {...animationProps}
         />
 
-        {Array.from({ length: Math.max(0, activities) }, (_, index) => (
+        {Array.from({ length: safeActivities }, (_, index) => (
           <View key={index} style={styles.activityItem}>
             <CircleSkeleton size={36} {...animationProps} />
             <View style={styles.activityContent}>

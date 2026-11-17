@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
+import { toSafeCount, toSafeColumns } from '../utils/validateProps';
 
 const TableSkeleton = ({
   rows = 5,
@@ -29,10 +30,9 @@ const TableSkeleton = ({
     maxOpacity,
   };
 
-  const cellWidth = `${100 / Math.max(1, columns)}%`;
-
-  const safeRows = Math.max(0, rows);
-  const safeColumns = Math.max(0, columns);
+  const safeRows = toSafeCount(rows, 5);
+  const safeColumns = toSafeColumns(columns, 4);
+  const cellWidth = `${100 / safeColumns}%`;
 
   return (
     <View style={[styles.container, style]}>

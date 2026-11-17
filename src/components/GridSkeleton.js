@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import TextSkeleton from './TextSkeleton';
+import { toSafeCount, toSafeColumns } from '../utils/validateProps';
 
 const GridSkeleton = ({
   count = 6,
@@ -31,11 +32,13 @@ const GridSkeleton = ({
     maxOpacity,
   };
 
-  const itemWidth = `${100 / Math.max(1, columns)}%`;
+  const safeCount = toSafeCount(count, 6);
+  const safeColumns = toSafeColumns(columns, 2);
+  const itemWidth = `${100 / safeColumns}%`;
 
   return (
     <View style={[styles.container, style]}>
-      {Array.from({ length: Math.max(0, count) }, (_, index) => (
+      {Array.from({ length: safeCount }, (_, index) => (
         <View
           key={index}
           style={[

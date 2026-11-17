@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
+import { toSafeCount } from '../utils/validateProps';
 
 const EmptyStateSkeleton = ({
   illustrationSize = 120,
@@ -28,6 +29,8 @@ const EmptyStateSkeleton = ({
     maxOpacity,
   };
 
+  const safeLines = toSafeCount(descriptionLines, 2);
+
   return (
     <View style={[styles.container, style]}>
       <BoxSkeleton
@@ -47,11 +50,11 @@ const EmptyStateSkeleton = ({
 
       <View style={styles.description}>
         {Array.from(
-          { length: Math.max(0, descriptionLines) },
+          { length: safeLines },
           (_, index) => (
             <BoxSkeleton
               key={index}
-              width={index === descriptionLines - 1 ? '55%' : '85%'}
+              width={index === safeLines - 1 ? '55%' : '85%'}
               height={11}
               borderRadius={4}
               style={index > 0 ? styles.descriptionLine : undefined}
