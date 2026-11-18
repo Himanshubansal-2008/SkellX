@@ -8,6 +8,7 @@ import {
 
 import useTheme from '../hooks/useTheme';
 import { DEFAULT_ANIMATION_DURATION } from '../constants/defaults';
+import { isValidDimension } from '../utils/validateProps';
 
 const VALID_DIRECTIONS = ['left', 'right'];
 
@@ -25,6 +26,32 @@ const Shimmer = ({
   const theme = useTheme();
   const resolvedBg = backgroundColor || theme.backgroundColor;
   const resolvedHighlight = color || theme.highlightColor;
+
+  const isWidthValid = width === undefined || isValidDimension(width);
+  if (!isWidthValid) {
+    console.warn(
+      `[SkellX] Invalid shimmer width dimension "${width}". Expected a non-negative number, percentage string (e.g. "100%"), or "auto". Defaulting to 200.`
+    );
+  }
+  const resolvedWidth = isWidthValid ? width : 200;
+
+  const isHeightValid = height === undefined || isValidDimension(height);
+  if (!isHeightValid) {
+    console.warn(
+      `[SkellX] Invalid shimmer height dimension "${height}". Expected a non-negative number, percentage string (e.g. "100%"), or "auto". Defaulting to 100.`
+    );
+  }
+  const resolvedHeight = isHeightValid ? height : 100;
+
+  const isBorderRadiusValid =
+    borderRadius === undefined ||
+    (typeof borderRadius === 'number' && Number.isFinite(borderRadius) && borderRadius >= 0);
+  if (!isBorderRadiusValid) {
+    console.warn(
+      `[SkellX] Invalid shimmer borderRadius "${borderRadius}". Expected a non-negative number. Defaulting to 8.`
+    );
+  }
+  const resolvedBorderRadius = isBorderRadiusValid ? (borderRadius ?? 8) : 8;
 
   const isDirectionValid = direction === undefined || VALID_DIRECTIONS.includes(direction);
   if (!isDirectionValid) {
@@ -55,14 +82,16 @@ const Shimmer = ({
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const [containerWidth, setContainerWidth] = useState(
-    typeof width === 'number' && Number.isFinite(width) && width > 0 ? width : 0
+    typeof resolvedWidth === 'number' && Number.isFinite(resolvedWidth) && resolvedWidth > 0
+      ? resolvedWidth
+      : 0
   );
 
   useEffect(() => {
-    if (typeof width === 'number' && Number.isFinite(width) && width > 0) {
-      setContainerWidth(width);
+    if (typeof resolvedWidth === 'number' && Number.isFinite(resolvedWidth) && resolvedWidth > 0) {
+      setContainerWidth(resolvedWidth);
     }
-  }, [width]);
+  }, [resolvedWidth]);
 
   useEffect(() => {
     const animation = Animated.loop(
@@ -99,9 +128,9 @@ const Shimmer = ({
       style={[
         styles.container,
         {
-          width,
-          height,
-          borderRadius,
+          width: resolvedWidth,
+          height: resolvedHeight,
+          borderRadius: resolvedBorderRadius,
           backgroundColor: resolvedBg,
         },
         style,

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const SearchSkeleton = ({
   results = 5,
@@ -34,8 +34,19 @@ const SearchSkeleton = ({
 
   const safeResults = toSafeCount(results, 5);
   const safeFilterCount = toSafeCount(filterCount, 4);
-  const safeThumbnailSize = toSafeCount(thumbnailSize, 64);
-  const safeSpacing = toSafeCount(spacing, 16);
+
+  const isThumbnailSizeValid = thumbnailSize === undefined || isValidDimension(thumbnailSize);
+  if (!isThumbnailSizeValid) {
+    console.warn(
+      `[SkellX] Invalid SearchSkeleton thumbnailSize dimension "${thumbnailSize}". Defaulting to 64.`
+    );
+  }
+  const safeThumbnailSize = isThumbnailSizeValid ? thumbnailSize : 64;
+
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 16;
 
   return (
     <View style={[styles.container, style]}>

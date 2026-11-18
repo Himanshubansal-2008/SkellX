@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import TextSkeleton from './TextSkeleton';
-import { toSafeCount, toSafeColumns } from '../utils/validateProps';
+import { toSafeCount, toSafeColumns, isValidDimension } from '../utils/validateProps';
 
 const GridSkeleton = ({
   count = 6,
@@ -34,6 +34,18 @@ const GridSkeleton = ({
 
   const safeCount = toSafeCount(count, 6);
   const safeColumns = toSafeColumns(columns, 2);
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 12;
+
+  const isItemHeightValid = itemHeight === undefined || isValidDimension(itemHeight);
+  if (!isItemHeightValid) {
+    console.warn(
+      `[SkellX] Invalid GridSkeleton itemHeight dimension "${itemHeight}". Defaulting to 120.`
+    );
+  }
+  const safeItemHeight = isItemHeightValid ? itemHeight : 120;
   const itemWidth = `${100 / safeColumns}%`;
 
   return (
@@ -45,14 +57,14 @@ const GridSkeleton = ({
             styles.item,
             {
               width: itemWidth,
-              paddingHorizontal: spacing / 2,
-              marginBottom: spacing,
+              paddingHorizontal: safeSpacing / 2,
+              marginBottom: safeSpacing,
             },
           ]}
         >
           <BoxSkeleton
             width="100%"
-            height={itemHeight}
+            height={safeItemHeight}
             borderRadius={10}
             {...animationProps}
           />

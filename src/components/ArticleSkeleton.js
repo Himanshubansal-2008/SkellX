@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import TextSkeleton from './TextSkeleton';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const ArticleSkeleton = ({
   imageHeight = 200,
@@ -33,8 +33,19 @@ const ArticleSkeleton = ({
 
   const safeTitleLines = toSafeCount(titleLines, 2);
   const safeContentLines = toSafeCount(contentLines, 4);
-  const safeImageHeight = toSafeCount(imageHeight, 200);
-  const safeSpacing = toSafeCount(spacing, 12);
+
+  const isImageHeightValid = imageHeight === undefined || isValidDimension(imageHeight);
+  if (!isImageHeightValid) {
+    console.warn(
+      `[SkellX] Invalid ArticleSkeleton imageHeight dimension "${imageHeight}". Defaulting to 200.`
+    );
+  }
+  const safeImageHeight = isImageHeightValid ? imageHeight : 200;
+
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 12;
 
   return (
     <View style={[styles.container, { gap: safeSpacing }, style]}>

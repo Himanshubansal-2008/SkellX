@@ -15,6 +15,12 @@ export const isValidDimension = (value) => {
 };
 
 export const toSafeCount = (value, fallback = 0) => {
+  if (value === null || typeof value === 'boolean') {
+    return fallback;
+  }
+  if (typeof value === 'string' && value.trim() === '') {
+    return fallback;
+  }
   const num = Number(value);
   if (Number.isFinite(num) && num >= 0) {
     return Math.floor(num);
@@ -23,6 +29,12 @@ export const toSafeCount = (value, fallback = 0) => {
 };
 
 export const toSafeColumns = (value, fallback = 1) => {
+  if (value === null || typeof value === 'boolean') {
+    return Math.max(1, fallback);
+  }
+  if (typeof value === 'string' && value.trim() === '') {
+    return Math.max(1, fallback);
+  }
   const num = Number(value);
   if (Number.isFinite(num) && num >= 1) {
     return Math.floor(num);

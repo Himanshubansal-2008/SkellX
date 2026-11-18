@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
-import { toSafeCount, toSafeColumns } from '../utils/validateProps';
+import { toSafeCount, toSafeColumns, isValidDimension } from '../utils/validateProps';
 
 const TableSkeleton = ({
   rows = 5,
@@ -32,6 +32,18 @@ const TableSkeleton = ({
 
   const safeRows = toSafeCount(rows, 5);
   const safeColumns = toSafeColumns(columns, 4);
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 16;
+
+  const isRowHeightValid = rowHeight === undefined || isValidDimension(rowHeight);
+  if (!isRowHeightValid) {
+    console.warn(
+      `[SkellX] Invalid TableSkeleton rowHeight dimension "${rowHeight}". Defaulting to 16.`
+    );
+  }
+  const safeRowHeight = isRowHeightValid ? rowHeight : 16;
   const cellWidth = `${100 / safeColumns}%`;
 
   return (
@@ -41,7 +53,7 @@ const TableSkeleton = ({
           key={rowIndex}
           style={[
             styles.row,
-            { marginBottom: rowIndex === safeRows - 1 ? 0 : spacing },
+            { marginBottom: rowIndex === safeRows - 1 ? 0 : safeSpacing },
           ]}
         >
           {Array.from({ length: safeColumns }, (_, columnIndex) => (
@@ -51,7 +63,7 @@ const TableSkeleton = ({
             >
               <BoxSkeleton
                 width="85%"
-                height={rowHeight}
+                height={safeRowHeight}
                 {...animationProps}
               />
             </View>

@@ -5,7 +5,7 @@ import BoxSkeleton from './BoxSkeleton';
 import CircleSkeleton from './CircleSkeleton';
 import TextSkeleton from './TextSkeleton';
 import useTheme from '../hooks/useTheme';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const CardSkeleton = ({
   width = '100%',
@@ -31,9 +31,20 @@ const CardSkeleton = ({
     (theme.name === 'dark' ? '#1F2937' : '#FFFFFF');
 
   const safeLines = toSafeCount(lines, 2);
-  const safeImageHeight = toSafeCount(imageHeight, 150);
-  const safeAvatarSize = toSafeCount(avatarSize, 40);
-  const safeSpacing = toSafeCount(spacing, 12);
+  const safeImageHeight = isValidDimension(imageHeight) ? imageHeight : 150;
+  const safeAvatarSize = isValidDimension(avatarSize) ? avatarSize : 40;
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 12;
+
+  const isWidthValid = width === undefined || isValidDimension(width);
+  if (!isWidthValid) {
+    console.warn(
+      `[SkellX] Invalid CardSkeleton width dimension "${width}". Defaulting to "100%".`
+    );
+  }
+  const safeWidth = isWidthValid ? width : '100%';
 
   const animationProps = {
     color,
@@ -51,7 +62,7 @@ const CardSkeleton = ({
       style={[
         styles.card,
         {
-          width,
+          width: safeWidth,
           backgroundColor: resolvedCardBackground,
         },
         style,

@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
 import TextSkeleton from './TextSkeleton';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const ProductSkeleton = ({
   width = '100%',
@@ -33,11 +33,38 @@ const ProductSkeleton = ({
   };
 
   const safeTitleLines = toSafeCount(titleLines, 2);
-  const safeImageHeight = toSafeCount(imageHeight, 180);
-  const safeSpacing = toSafeCount(spacing, 10);
+
+  const isWidthValid = width === undefined || isValidDimension(width);
+  if (!isWidthValid) {
+    console.warn(
+      `[SkellX] Invalid ProductSkeleton width dimension "${width}". Defaulting to "100%".`
+    );
+  }
+  const safeWidth = isWidthValid ? width : '100%';
+
+  const isImageHeightValid = imageHeight === undefined || isValidDimension(imageHeight);
+  if (!isImageHeightValid) {
+    console.warn(
+      `[SkellX] Invalid ProductSkeleton imageHeight dimension "${imageHeight}". Defaulting to 180.`
+    );
+  }
+  const safeImageHeight = isImageHeightValid ? imageHeight : 180;
+
+  const isPriceWidthValid = priceWidth === undefined || isValidDimension(priceWidth);
+  if (!isPriceWidthValid) {
+    console.warn(
+      `[SkellX] Invalid ProductSkeleton priceWidth dimension "${priceWidth}". Defaulting to "35%".`
+    );
+  }
+  const safePriceWidth = isPriceWidthValid ? priceWidth : '35%';
+
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 10;
 
   return (
-    <View style={[styles.container, { width, gap: safeSpacing }, style]}>
+    <View style={[styles.container, { width: safeWidth, gap: safeSpacing }, style]}>
       <BoxSkeleton
         width="100%"
         height={safeImageHeight}
@@ -53,7 +80,7 @@ const ProductSkeleton = ({
       />
 
       <BoxSkeleton
-        width={priceWidth}
+        width={safePriceWidth}
         height={16}
         borderRadius={4}
         {...animationProps}

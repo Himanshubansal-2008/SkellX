@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 
 import BoxSkeleton from './BoxSkeleton';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const EmptyStateSkeleton = ({
   illustrationSize = 120,
@@ -30,7 +30,14 @@ const EmptyStateSkeleton = ({
   };
 
   const safeLines = toSafeCount(descriptionLines, 2);
-  const safeIllustrationSize = toSafeCount(illustrationSize, 120);
+
+  const isIllustrationSizeValid = illustrationSize === undefined || isValidDimension(illustrationSize);
+  if (!isIllustrationSizeValid) {
+    console.warn(
+      `[SkellX] Invalid EmptyStateSkeleton illustrationSize dimension "${illustrationSize}". Defaulting to 120.`
+    );
+  }
+  const safeIllustrationSize = isIllustrationSizeValid ? illustrationSize : 120;
 
   return (
     <View style={[styles.container, style]}>

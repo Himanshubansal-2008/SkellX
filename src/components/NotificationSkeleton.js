@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import CircleSkeleton from './CircleSkeleton';
 import BoxSkeleton from './BoxSkeleton';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const NotificationSkeleton = ({
   avatarSize = 44,
@@ -31,8 +31,18 @@ const NotificationSkeleton = ({
     maxOpacity,
   };
 
-  const safeAvatarSize = toSafeCount(avatarSize, 44);
-  const safeSpacing = toSafeCount(spacing, 12);
+  const isAvatarSizeValid = avatarSize === undefined || isValidDimension(avatarSize);
+  if (!isAvatarSizeValid) {
+    console.warn(
+      `[SkellX] Invalid NotificationSkeleton avatarSize dimension "${avatarSize}". Defaulting to 44.`
+    );
+  }
+  const safeAvatarSize = isAvatarSizeValid ? avatarSize : 44;
+
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 12;
 
   return (
     <View style={[styles.container, { gap: safeSpacing }, style]}>

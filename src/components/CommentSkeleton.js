@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 
 import CircleSkeleton from './CircleSkeleton';
 import BoxSkeleton from './BoxSkeleton';
-import { toSafeCount } from '../utils/validateProps';
+import { toSafeCount, isValidDimension } from '../utils/validateProps';
 
 const CommentSkeleton = ({
   avatarSize = 40,
@@ -33,8 +33,19 @@ const CommentSkeleton = ({
   };
 
   const safeLines = toSafeCount(lines, 2);
-  const safeAvatarSize = toSafeCount(avatarSize, 40);
-  const safeSpacing = toSafeCount(spacing, 12);
+
+  const isAvatarSizeValid = avatarSize === undefined || isValidDimension(avatarSize);
+  if (!isAvatarSizeValid) {
+    console.warn(
+      `[SkellX] Invalid CommentSkeleton avatarSize dimension "${avatarSize}". Defaulting to 40.`
+    );
+  }
+  const safeAvatarSize = isAvatarSizeValid ? avatarSize : 40;
+
+  const safeSpacing =
+    typeof spacing === 'number' && Number.isFinite(spacing) && spacing >= 0
+      ? spacing
+      : 12;
 
   return (
     <View style={[styles.container, { gap: safeSpacing }, style]}>

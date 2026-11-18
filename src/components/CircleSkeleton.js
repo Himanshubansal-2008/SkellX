@@ -1,6 +1,7 @@
 import React from 'react';
 
 import SkeletonItem from './SkeletonItem';
+import { isValidDimension } from '../utils/validateProps';
 
 const CircleSkeleton = ({
   size = 50,
@@ -15,17 +16,25 @@ const CircleSkeleton = ({
   maxOpacity,
   style,
 }) => {
+  const isSizeValid = size === undefined || isValidDimension(size);
+  if (!isSizeValid) {
+    console.warn(
+      `[SkellX] Invalid CircleSkeleton size dimension "${size}". Expected a non-negative number, percentage string (e.g. "100%"), or "auto". Defaulting to 50.`
+    );
+  }
+  const resolvedSize = isSizeValid ? size : 50;
+
   const resolvedBorderRadius =
     borderRadius !== undefined
       ? borderRadius
-      : typeof size === 'number' && Number.isFinite(size) && size >= 0
-      ? size / 2
+      : typeof resolvedSize === 'number' && Number.isFinite(resolvedSize) && resolvedSize >= 0
+      ? resolvedSize / 2
       : 9999;
 
   return (
     <SkeletonItem
-      width={size}
-      height={size}
+      width={resolvedSize}
+      height={resolvedSize}
       borderRadius={resolvedBorderRadius}
       color={color}
       animation={animation}
